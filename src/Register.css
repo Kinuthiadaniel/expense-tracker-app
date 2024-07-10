@@ -36,3 +36,8 @@
     background-color: #3e8e41; 
     transform: scale(0.95);
 }
+.input{
+    height: 4vh;
+    border-radius: 12px;
+    border-style: solid;
+}

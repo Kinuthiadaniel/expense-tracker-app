@@ -7,6 +7,11 @@ import './Register.css';
 const Register = () => {
   const [user, setUser] = useState([{}]);
   const [refreshPage, setRefreshPage] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
 
   useEffect(() => {
@@ -54,13 +59,15 @@ const Register = () => {
   return (
     <div className="form-container">
       <div className="form-wrapper">
-        <h1>Hello, sign up here</h1>
+        <h2>Hello, Create account</h2>
+        <div><p>Already have an account? <a href='/login'>Login</a></p> </div>
         <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
           <label htmlFor="email">Email Address</label>
           <br />
           <input
             id="email"
             name="email"
+            className="input"
             onChange={formik.handleChange}
             value={formik.values.email}
           />
@@ -71,6 +78,7 @@ const Register = () => {
           <input
             id="name"
             name="name"
+            className="input"
             onChange={formik.handleChange}
             value={formik.values.name}
           />
@@ -82,16 +90,20 @@ const Register = () => {
           <input
             id="password"
             name="password"
+            className="input"
+            type={showPassword ? 'text' : 'password'}
             onChange={formik.handleChange}
             value={formik.values.password}
-          />
+          /><br></br>
+          <button type="button" onClick={togglePasswordVisibility} className="toggle-password">
+            {showPassword ? 'Hide' : 'Show Password'}
+          </button>
           <p style={{ color: "red" }}> {formik.errors.password}</p>
           <button type="submit" className="button">CREATE ACCOUNT</button>
-          <div><p>Already has an account? <a href='/login'>Login</a></p> </div>
         </form>
-        
+
       </div>
-        
+
     </div>
   );
 };
