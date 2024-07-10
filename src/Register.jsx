@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import './Register.css';
+
 
 const Register = () => {
-  const [customers, setCustomers] = useState([{}]);
+  const [user, setUser] = useState([{}]);
   const [refreshPage, setRefreshPage] = useState(false);
-  // Pass the useFormik() hook initial form values and a submit function that will
-  // be called when the form is submitted
+
 
   useEffect(() => {
     console.log("FETCH! ");
-    fetch("/customers")
+    fetch("/users")
       .then((res) => res.json())
       .then((data) => {
-        setCustomers(data);
+        setUser(data);
         console.log(data);
       });
   }, [refreshPage]);
@@ -25,7 +26,7 @@ const Register = () => {
       .string()
       .required("Must enter password")
       .min(8, 'Password must be at least 8 characters'),
-      
+
   });
 
   const formik = useFormik({
@@ -36,7 +37,7 @@ const Register = () => {
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
-      fetch("customers", {
+      fetch("/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,43 +52,48 @@ const Register = () => {
   });
 
   return (
-    <div>
-      <h1>User sign up form</h1>
-      <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
-        <label htmlFor="email">Email Address</label>
-        <br />
-        <input
-          id="email"
-          name="email"
-          onChange={formik.handleChange}
-          value={formik.values.email}
-        />
-        <p style={{ color: "red" }}> {formik.errors.email}</p>
-        <label htmlFor="name">Name</label>
-        <br />
+    <div className="form-container">
+      <div className="form-wrapper">
+        <h1>Hello, sign up here</h1>
+        <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
+          <label htmlFor="email">Email Address</label>
+          <br />
+          <input
+            id="email"
+            name="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
+          />
+          <p style={{ color: "red" }}> {formik.errors.email}</p>
+          <label htmlFor="name">Name</label>
+          <br />
 
-        <input
-          id="name"
-          name="name"
-          onChange={formik.handleChange}
-          value={formik.values.name}
-        />
-        <p style={{ color: "red" }}> {formik.errors.name}</p>
+          <input
+            id="name"
+            name="name"
+            onChange={formik.handleChange}
+            value={formik.values.name}
+          />
+          <p style={{ color: "red" }}> {formik.errors.name}</p>
 
-        <label htmlFor="password">Password</label>
-        <br />
+          <label htmlFor="password">Password</label>
+          <br />
 
-        <input
-          id="password"
-          name="password"
-          onChange={formik.handleChange}
-          value={formik.values.password}
-        />
-        <p style={{ color: "red" }}> {formik.errors.password}</p>
-        <button type="submit">CREATE ACCOUNT</button>
-      </form>
+          <input
+            id="password"
+            name="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+          />
+          <p style={{ color: "red" }}> {formik.errors.password}</p>
+          <button type="submit" className="button">CREATE ACCOUNT</button>
+          <div><p>Already has an account? <a href='/login'>Login</a></p> </div>
+        </form>
+        
+      </div>
+        
     </div>
   );
 };
- 
+
 export default Register
